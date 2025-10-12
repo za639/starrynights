@@ -7,7 +7,7 @@ body {
   overflow:hidden;
 }
 .page { height:100%; display:grid; place-items:center; padding:24px; }
-
+h1 { text-align: center; }
 #editor {
   width:min(900px, 92vw);
   height:min(70vh, 70dvh);

@@ -1,0 +1,114 @@
+:root { --bg1:#0b1020; --bg2:#060912; }
+html, body { height:100%; margin:0; }
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:#f5f7ff;
+  background: radial-gradient(1200px 800px at 70% 20%, var(--bg1), var(--bg2));
+  overflow:hidden;
+}
+.page { height:100%; display:grid; place-items:center; padding:24px; }
+
+#editor {
+  width:min(900px, 92vw);
+  height:min(70vh, 70dvh);
+  padding:28px 32px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255, .06);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  overflow:auto; outline:none;
+  line-height:1.5; font-size:1.15rem;
+  caret-color:#c9e6ff; position:relative;
+}
+#editor:empty:before { content:"Start typing your story…"; color:#cfd3ff80; }
+
+/* Generic small flash on keypress */
+.flash { animation: flash .25s ease; }
+@keyframes flash {
+  from { box-shadow: 0 0 0 rgba(255,255,255,0); }
+  50%  { box-shadow: 0 0 28px rgba(255,255,255,.22); }
+  to   { box-shadow: 0 12px 40px rgba(0,0,0,.35); }
+}
+
+/* ===== lowercase: STARS ===== */
+.star {
+  position: fixed;
+  width: 12px; height: 12px;
+  pointer-events: none; transform: translate(-50%,-50%) scale(.7);
+  /* star via gradients */
+  background:
+    radial-gradient(circle, #fff 0 38%, transparent 39% 100%),
+    conic-gradient(transparent 0 10%, #fff 10% 13%, transparent 13% 35%,
+                   #fff 35% 38%, transparent 38% 60%,
+                   #fff 60% 63%, transparent 63% 85%,
+                   #fff 85% 88%, transparent 88% 100%);
+  filter: drop-shadow(0 0 8px rgba(255,255,255,.9));
+  animation: star-pop .8s ease-out forwards;
+}
+@keyframes star-pop {
+  0%   { opacity:0; transform: translate(-50%,-50%) scale(.2) rotate(-15deg); }
+  20%  { opacity:1; transform: translate(var(--x), var(--y)) scale(1.05) rotate(0); }
+  100% { opacity:0; transform: translate(var(--x2), var(--y2)) scale(.1) rotate(15deg); }
+}
+
+/* ===== UPPERCASE: MOON ===== */
+.moon {
+  position: fixed; width: 36px; height: 36px; border-radius: 50%;
+  pointer-events:none; transform: translate(-50%,-50%) scale(.5);
+  background:
+    radial-gradient(120% 120% at 30% 30%, #fff, #dcdfe6 60%, #adb4c2 100%),
+    radial-gradient(6px 6px at 40% 40%, #c3c9d6, transparent 70%),
+    radial-gradient(8px 8px at 65% 55%, #c3c9d6, transparent 70%),
+    radial-gradient(5px 5px at 55% 70%, #c3c9d6, transparent 70%);
+  box-shadow: 0 0 20px rgba(230,240,255,.6);
+  animation: moon-drift 1.1s ease-out forwards;
+}
+@keyframes moon-drift {
+  0%   { opacity:0; transform: translate(-50%,-50%) scale(.4); filter: brightness(0.9); }
+  20%  { opacity:1; transform: translate(-50%,-50%) scale(1.05); }
+  100% { opacity:0; transform: translate(calc(-50% + var(--mx)), calc(-50% + var(--my))) scale(.6); filter: brightness(1.1); }
+}
+
+/* ===== Enter: BLACK HOLE ===== */
+/* central singularity */
+.hole {
+  position: fixed; width: 18px; height: 18px; border-radius:50%;
+  background: radial-gradient(circle, #000 0 60%, #111 61% 100%);
+  box-shadow: 0 0 40px 10px rgba(0,0,0,.7) inset, 0 0 50px rgba(0,0,0,.7);
+  transform: translate(-50%,-50%) scale(0.4);
+  pointer-events:none; z-index: 2;
+  animation: hole-grow .9s ease-out forwards;
+}
+@keyframes hole-grow {
+  0%   { opacity:.9; transform: translate(-50%,-50%) scale(0.4); }
+  60%  { opacity:1;  transform: translate(-50%,-50%) scale(1.1); }
+  100% { opacity:.8; transform: translate(-50%,-50%) scale(.9); }
+}
+
+/* swirling accretion ring */
+.accretion {
+  position: fixed; width: 18px; height: 18px; border-radius: 50%;
+  transform: translate(-50%,-50%) scale(1.2);
+  pointer-events:none; z-index: 1;
+  background:
+    conic-gradient(from 0deg, rgba(255,255,255,.7), rgba(180,220,255,.25), rgba(120,170,255,.15), rgba(255,255,255,.7));
+  filter: blur(1px) drop-shadow(0 0 8px rgba(150,200,255,.6));
+  animation: swirl 1.2s linear infinite, fadeRing 1.2s ease-out forwards;
+}
+@keyframes swirl { to { transform: translate(-50%,-50%) scale(3.5) rotate(360deg); } }
+@keyframes fadeRing { to { opacity: 0; } }
+
+/* specks getting sucked in */
+.speck {
+  position: fixed; width: 6px; height: 6px; border-radius: 50%;
+  background: #cfe6ff; box-shadow: 0 0 6px rgba(180,220,255,.9);
+  pointer-events:none; z-index: 0;
+  transform: translate(0,0) scale(1);
+  animation: suck .9s ease-in forwards;
+}
+@keyframes suck {
+  0%   { opacity:1; transform: translate(var(--tx), var(--ty)) scale(1); }
+  80%  { opacity:.9; }
+  100% { opacity:0; transform: translate(0px, 0px) scale(0.2); }
+}
